@@ -1,12 +1,26 @@
 package model;
 
+import jakarta.persistence.*;
+
+@Table
+@Entity(name = "TB-PERSON")
 public class Person {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "NAME",nullable = false)
     private String name;
 
+    @Column(name = "PHONE_NUMBER", nullable = false)
     private String phoneNumber;
 
+    @Column(name = "EMAIL_ADDRESS", nullable = false)
     private String emailAddress;
+
+    @OneToOne(mappedBy = "person")
+    private Address address;
 
     public Person() {
 
@@ -16,6 +30,14 @@ public class Person {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

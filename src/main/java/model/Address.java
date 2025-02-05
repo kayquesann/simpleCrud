@@ -1,15 +1,32 @@
 package model;
 
+import jakarta.persistence.*;
+
+@Table
+@Entity(name = "TB-ADDRESS")
 public class Address {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @JoinColumn(name = "ID_PERSON")
+    @OneToOne
+    private Person person;
+
+    @Column(name = "STREET", nullable = false)
     private String street;
 
+    @Column(name = "CITY", nullable = false)
     private String city;
 
+    @Column(name = "STATE", nullable = false)
     private String state;
 
+    @Column(name = "POSTAL_CODE", nullable = false)
     private String postalCode;
 
+    @Column(name = "COUNTRY", nullable = false)
     private String country;
 
     public Address() {
@@ -22,6 +39,22 @@ public class Address {
         this.state = state;
         this.postalCode = postalCode;
         this.country = country;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public String getStreet() {
@@ -69,6 +102,6 @@ public class Address {
     }
 
     public void outputAsLabel () {
-        
+
     }
 }
