@@ -1,35 +1,32 @@
-package model;
+package model.dto;
 
-import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
-@Table
-@Entity(name = "TB-PERSON")
-public class Person {
+public class ReadProfessorDTO extends RepresentationModel<ReadProfessorDTO> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "NAME",nullable = false)
-    private String name;
+    private  String name;
 
-    @Column(name = "PHONE_NUMBER", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "EMAIL_ADDRESS", nullable = false)
     private String emailAddress;
 
-    @OneToOne(mappedBy = "person")
-    private Address address;
+    private String cityName;
 
-    public Person() {
+    private double salary;
+
+    public ReadProfessorDTO() {
 
     }
 
-    public Person(String name, String phoneNumber, String emailAddress) {
+    public ReadProfessorDTO(Integer id, String name, String phoneNumber, String emailAddress, String cityName, double salary) {
+        this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
+        this.cityName = cityName;
+        this.salary = salary;
     }
 
     public Integer getId() {
@@ -64,7 +61,19 @@ public class Person {
         this.emailAddress = emailAddress;
     }
 
-    public void purchaseParkingPass () {
+    public String getCityName() {
+        return cityName;
+    }
 
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 }
