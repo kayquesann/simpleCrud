@@ -2,38 +2,78 @@ package model;
 
 import jakarta.persistence.*;
 
-@Table
-@Entity(name = "TB-STUDENT")
-public class Student extends Person {
+@Entity
+@Table(name = "TB-STUDENT")
+public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "STUDENT-NUMBER")
+    @Column(name = "NAME",nullable = false)
+    private String name;
+
+    @Column(name = "PHONE_NUMBER", nullable = false)
+    private String phoneNumber;
+
+    @Column(name = "EMAIL_ADDRESS", nullable = false)
+    private String emailAddress;
+
+    @Column(name = "STUDENT_NUMBER")
     private String studentNumber;
 
-    @Column(name = "AVERAGE-MARK")
-    private String averageMark;
+    @Column(name = "AVERAGE_MARK")
+    private double averageMark;
+
+    @JoinColumn(name = "ID_ADDRESS")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Address studentAddress;
+
 
     public Student () {
 
     }
 
-    public Student(String name, String phoneNumber, String emailAddress, String studentNumber, String averageMark) {
-        super(name, phoneNumber, emailAddress);
+    public Student(Integer id, String name, String phoneNumber, String emailAddress, String studentNumber, double averageMark, Address studentAddress) {
+        this.id = id;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
         this.studentNumber = studentNumber;
         this.averageMark = averageMark;
+        this.studentAddress = studentAddress;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getStudentNumber() {
@@ -44,19 +84,31 @@ public class Student extends Person {
         this.studentNumber = studentNumber;
     }
 
-    public String getAverageMark() {
+    public double getAverageMark() {
         return averageMark;
     }
 
-    public void setAverageMark(String averageMark) {
+    public void setAverageMark(double averageMark) {
         this.averageMark = averageMark;
     }
 
-    public void isEligibleToEnroll () {
-
+    public Address getStudentAddress() {
+        return studentAddress;
     }
 
-    public void getSeminarsTaken () {
+    public void setStudentAddress(Address studentAddress) {
+        this.studentAddress = studentAddress;
+    }
 
+    public boolean isEligibleToEnroll () {
+        return averageMark >= 6.0;
+    }
+
+    public String getSeminarsTaken () {
+        return "Seminários cursados por " + name;
+    }
+
+    public void purchaseParkingPass () {
+        System.out.println(name + " comprou um passe de estacionamento.");
     }
 }
