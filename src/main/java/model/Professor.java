@@ -2,34 +2,72 @@ package model;
 
 import jakarta.persistence.*;
 
-@Table
-@Entity(name = "TB-PROFESSOR")
-public class Professor extends Person {
+@Entity
+@Table(name = "TB-PROFESSOR")
+public class Professor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(name = "NAME",nullable = false)
+    private String name;
+
+    @Column(name = "PHONE_NUMBER", nullable = false)
+    private String phoneNumber;
+
+    @Column(name = "EMAIL_ADDRESS", nullable = false)
+    private String emailAddress;
+
     @Column(name = "SALARY", nullable = false)
     private double salary;
+
+    @JoinColumn(name = "ID_ADDRESS")
+    @OneToOne
+    private Address professorAddress;
 
     public Professor () {
 
     }
 
-    public Professor(String name, String phoneNumber, String emailAddress, double salary) {
-        super(name, phoneNumber, emailAddress);
+    public Professor(Integer id, String name, String phoneNumber, String emailAddress, double salary) {
+        this.id = id;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
         this.salary = salary;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public double getSalary() {
@@ -38,5 +76,17 @@ public class Professor extends Person {
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    public Address getProfessorAddress() {
+        return professorAddress;
+    }
+
+    public void setProfessorAddress(Address professorAddress) {
+        this.professorAddress = professorAddress;
+    }
+
+    public void purchaseParkingPass () {
+        System.out.println(name + " comprou um passe de estacionamento.");
     }
 }

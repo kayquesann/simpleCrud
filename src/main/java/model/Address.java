@@ -2,17 +2,13 @@ package model;
 
 import jakarta.persistence.*;
 
-@Table
-@Entity(name = "TB-ADDRESS")
+@Entity
+@Table(name = "TB-ADDRESS")
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    @JoinColumn(name = "ID_PERSON")
-    @OneToOne
-    private Person person;
 
     @Column(name = "STREET", nullable = false)
     private String street;
@@ -29,16 +25,25 @@ public class Address {
     @Column(name = "COUNTRY", nullable = false)
     private String country;
 
+    @OneToOne(mappedBy = "studentAddress")
+    private Student student;
+
+    @OneToOne(mappedBy = "professorAddress")
+    private Professor professor;
+
     public Address() {
 
     }
 
-    public Address(String street, String city, String state, String postalCode, String country) {
+    public Address(Integer id, String street, String city, String state, String postalCode, String country, Student student, Professor professor) {
+        this.id = id;
         this.street = street;
         this.city = city;
         this.state = state;
         this.postalCode = postalCode;
         this.country = country;
+        this.student = student;
+        this.professor = professor;
     }
 
     public Integer getId() {
@@ -47,14 +52,6 @@ public class Address {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 
     public String getStreet() {
@@ -97,11 +94,31 @@ public class Address {
         this.country = country;
     }
 
-    public void validate () {
-
+    public Student getStudent() {
+        return student;
     }
 
-    public void outputAsLabel () {
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
+    public boolean validate () {
+        return street != null && !street.isEmpty() &&
+                city != null && !city.isEmpty() &&
+                state != null && !state.isEmpty() &&
+                postalCode != null && !postalCode.isEmpty() &&
+                country != null && !country.isEmpty();
+    }
+
+    public String outputAsLabel () {
+        return street + ", " + city + " - " + state + ", " + postalCode + ", " + country;
     }
 }
